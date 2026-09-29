@@ -1,0 +1,12 @@
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Segoe UI
+skinparam ArrowColor #333333
+skinparam usecase {
+  BorderColor #2E75B6
+  BackgroundColor #EAF2FA
+}
+skinparam class {
+  BorderColor #2E75B6
+  BackgroundColor #EAF2FA
+}

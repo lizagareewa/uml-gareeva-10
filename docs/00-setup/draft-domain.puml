@@ -1,0 +1,23 @@
+@startuml
+!include C:\Users\Лиза\uml-gareeva-10\docs\_style.puml
+
+class Место {
+  + ряд : String
+  + номер : String
+}
+class Билет {
+  + цена : Money
+  + датаПокупки : DateTime
+}
+class Событие {
+  + название : String
+  + дата : DateTime
+}
+class Зритель {
+  + фио : String
+}
+
+Событие "1" -- "0..*" Билет
+Место   "1" -- "0..*" Билет
+Зритель "1" -- "0..*" Билет
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+!include C:\Users\Лиза\uml-gareeva-10\docs\_style.puml
+
+actor "Покупатель" as buyer
+participant "Система продажи билетов" as app
+participant "Платёжный шлюз" as pay
+database "БД" as db
+
+buyer -> app : выбрать
+app -> db : INSERT блокировка
+db --> app : ОК
+app --> buyer : место заблокировано
+buyer -> app : подтвердить
+app -> pay : авторизовать платеж
+pay --> app : платёж успешен
+app -> db : INSERT билет
+db --> app : билет создан
+app --> buyer : билет
+@enduml

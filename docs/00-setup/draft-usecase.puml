@@ -1,0 +1,24 @@
+@startuml
+!include C:\Users\Лиза\uml-gareeva-10\docs\_style.puml
+left to right direction
+
+actor "Зритель"       as viewer
+actor "Кассир"        as cashier
+actor "Администратор" as admin
+
+rectangle "Продажа билетов на стадион" {
+  usecase "Выбрать место"                    as UC1
+  usecase "Купить билет"                     as UC2
+  usecase "Оформить абонемент"               as UC3
+  usecase "Продать билет в кассе"            as UC4
+  usecase "Произвести возврат билета"        as UC5
+  usecase "Вернуть билет"                    as UC6
+}
+
+viewer  -- UC1
+viewer  -- UC2
+viewer  -- UC6
+cashier -- UC4
+admin   -- UC5
+admin  -- UC3
+@enduml
