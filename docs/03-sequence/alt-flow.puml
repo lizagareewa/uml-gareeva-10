@@ -1,0 +1,52 @@
+@startuml
+!include ../_style.puml
+title ВИ-01 «Оформить покупку билета»: исключения
+
+actor "Зритель" as user
+participant "Витрина" as ui
+participant "Сервис продаж" as app
+database "БД" as db
+participant "Платёжный шлюз" as pay <<system>>
+queue "Очередь событий" as bus
+
+user -> ui: оформитьПокупку(место, реквизиты)
+activate ui
+
+ui -> app: обработатьЗаказ(место, реквизиты)
+activate app
+
+alt место заблокировано другой кассой
+    app -> db: SELECT статус места
+    db --> app: недоступно
+    app --> ui: отказ: место недоступно (И-1)
+
+else истекло время блокировки
+    app -> db: проверитьТаймер()
+    db --> app: таймаут
+    app -> db: DELETE блокировка
+    app --> ui: отказ: время сессии истекло (И-2)
+
+else платёж отклонён шлюзом
+    app -> pay: авторизовать(реквизиты)
+    pay --> app: отказ (недостаточно средств)
+    app --> ui: ошибка оплаты, попробуйте снова (И-3)
+
+else успешная покупка
+    app -> pay: авторизовать(реквизиты)
+    pay --> app: платёж успешен
+    
+    loop для каждого выбранного места
+        app -> db: UPDATE место (выкуплено)
+        app -> db: INSERT билет
+        db --> app: id билета
+    end
+    
+    app ->> bus: TicketCreated(id билета)
+    
+    app --> ui: электронный билет
+end
+deactivate app
+
+ui --> user: результат операции
+deactivate ui
+@enduml

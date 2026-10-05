@@ -1,5 +1,5 @@
 @startuml
-!include C:\Users\Лиза\uml-gareeva-10\docs\_style.puml
+!include ../_style.puml
 
 class Место {
   + ряд : String

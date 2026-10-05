@@ -1,5 +1,5 @@
 @startuml
-!include D:\вуз\3 курс\тмп\uml-gareeva-10\docs\_style.puml
+!include ../_style.puml
 left to right direction
 
 actor "Зритель"       as viewer
