@@ -7,7 +7,6 @@ skinparam usecase {
     BorderColor #2E7586
     BackgroundColor #EAF2FA
 }
-
 skinparam class {
     BorderColor #2E7586
     BackgroundColor #EAF2FA
@@ -15,10 +14,28 @@ skinparam class {
 
 skinparam sequence {
     ParticipantBorderColor #2E7586
-    ParticipantBackgroundColor #white
+    ParticipantBackgroundColor white
     GroupBorderColor #F5A623
     GroupBackgroundColor #FFF7EB
     GroupHeaderFontColor #333333
     LifeLineBorderColor #333333
-    LifeLineBackgroundColor #white
+    LifeLineBackgroundColor white
+}
+
+skinparam activity {
+    BorderColor #2E7586
+    BackgroundColor #EAF2FA
+    DiamondBorderColor #F5A623
+    DiamondBackgroundColor #FFF7EB
+}
+skinparam swimlane {
+    BorderColor #333333
+    BorderThickness 1
+}
+
+skinparam state {
+    BorderColor #2E7586
+    BackgroundColor #EAF2FA
+    StartColor #333333
+    EndColor #333333
 }
