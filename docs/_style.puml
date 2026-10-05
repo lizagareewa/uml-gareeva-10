@@ -3,30 +3,22 @@ skinparam shadowing false
 skinparam defaultFontName Segoe UI
 skinparam ArrowColor #333333
 
-' Настройки для Use Case (из ПЗ1)
 skinparam usecase {
     BorderColor #2E7586
     BackgroundColor #EAF2FA
 }
 
-' Настройки для Class (из ПЗ1)
 skinparam class {
     BorderColor #2E7586
     BackgroundColor #EAF2FA
 }
 
-' НОВЫЕ настройки для диаграмм последовательности (ПЗ2)
 skinparam sequence {
-    ' Стиль для самих участников
     ParticipantBorderColor #2E7586
     ParticipantBackgroundColor #white
-    
-    ' Оранжевые рамки для фрагментов (alt, opt, loop, par)
     GroupBorderColor #F5A623
     GroupBackgroundColor #FFF7EB
     GroupHeaderFontColor #333333
-    
-    ' Фокус управления (activate)
     LifeLineBorderColor #333333
     LifeLineBackgroundColor #white
 }

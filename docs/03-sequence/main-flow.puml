@@ -1,35 +1,43 @@
 @startuml
 !include ../_style.puml
 title ВИ-01 «Оформить покупку билета»: основной сценарий
+
 actor "Зритель" as user
 participant "Витрина" as ui
 participant "Сервис продаж" as app
 database "БД" as db
 participant "Платёжный шлюз" as pay <<system>>
+
 user -> ui: выбратьМесто(сектор, ряд)
 activate ui
+
 ui -> app: проверитьДоступность(место)
 activate app
 app -> db: SELECT статус места
 activate db
 db --> app: место свободно
 deactivate db
+
 app -> db: INSERT блокировка
 activate db
 db --> app: id блокировки
 deactivate db
+
 app --> ui: место заблокировано
 deactivate app
 ui --> user: форма оплаты
 deactivate ui
+
 user -> ui: ввестиРеквизиты()
 activate ui
 ui -> app: оплатить(реквизиты, сумма)
 activate app
+
 app -> pay: авторизовать(реквизиты, сумма)
 activate pay
 pay --> app: платёж успешен
 deactivate pay
+
 opt платёж подтверждён
     app -> db: UPDATE место (статус: выкуплено)
     activate db
@@ -40,8 +48,10 @@ opt платёж подтверждён
     db --> app: id билета
     deactivate db
 end
+
 app --> ui: электронный билет
 deactivate app
+
 ui --> user: показать билет
 deactivate ui
 @enduml
