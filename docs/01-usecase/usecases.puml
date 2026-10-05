@@ -1,0 +1,37 @@
+@startuml
+!include ../_style.puml
+left to right direction
+
+actor "Покупатель" as buyer
+actor "Сотрудник" as employee
+actor "Кассир" as cashier
+actor "Администратор" as admin
+actor "Платёжный шлюз" as pay_gateway <<system>>
+
+admin -up-> employee
+cashier -up-> employee
+
+rectangle "Продажа билетов на стадион" {
+  usecase "Выбрать место" as UC1
+  usecase "Заблокировать место" as UC2
+  usecase "Оформить покупку билета" as UC3
+  usecase "Оформить абонемент" as UC4
+  usecase "Оформить возврат билета" as UC5
+  usecase "Удержать комиссию" as UC6
+}
+
+buyer -- UC5
+buyer -- UC4
+buyer -- UC3
+employee -- UC3
+admin -- UC4
+admin -- UC5
+
+UC3 ..> UC1 : <<include>>
+UC3 ..> UC2 : <<include>>
+UC5 <.. UC6 : <<extend>>\n[возврат менее чем за 3 дня]
+
+UC3 -- pay_gateway
+UC4 -- pay_gateway
+UC5 -- pay_gateway
+@enduml
