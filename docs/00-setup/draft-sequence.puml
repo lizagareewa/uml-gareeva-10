@@ -9,7 +9,8 @@ database "БД" as db
 buyer -> ui: выбрать место
 ui -> app: запрос на бронирование
 app -> db: INSERT блокировка
-db --> app: OK
+db --> app: ok
 app --> ui: место заблокировано
 ui --> buyer: переход к оплате
+
 @enduml
