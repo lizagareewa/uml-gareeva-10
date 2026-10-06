@@ -4,7 +4,7 @@
 actor "Покупатель" as buyer
 participant "Витрина" as ui
 participant "Сервис продаж" as app
-databse "БД" as db
+database "БД" as db
 
 buyer -> ui: выбрать место
 ui -> app: запрос на бронирование
