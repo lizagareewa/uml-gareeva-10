@@ -1,0 +1,36 @@
+@startuml
+!include <C4/C4_Container>
+title Уровень 2 Containers: Система продажи билетов
+
+Person(viewer, "Зритель")
+Person(cashier, "Кассир")
+
+System_Boundary(stadium_sys, "Система продажи билетов") {
+    Container(web_ui, "Веб-витрина", "React", "Выбор мест, оформление заказа зрителем")
+    Container(pos_ui, "АРМ Кассира", "WPF / .NET", "Рабочее место кассира на стадионе")
+    Container(api, "Backend API", "Java / Spring Boot", "Основная бизнес-логика продаж")
+    
+    ContainerDb(db, "Основная БД", "PostgreSQL", "Хранение каталога, мест, заказов и билетов")
+    ContainerQueue(queue, "Очередь событий", "RabbitMQ", "Асинхронные задачи (генерация билетов)")
+    Container(worker, "Воркер рассылок", "Python", "Генерация PDF-билетов и отправка писем")
+}
+
+System_Ext(payment_gw, "Платёжный шлюз")
+System_Ext(email_sys, "Email/SMS-шлюз")
+
+Rel(viewer, web_ui, "Пользуется", "HTTPS")
+Rel(cashier, pos_ui, "Пользуется", "HTTPS")
+
+Rel(web_ui, api, "Вызывает", "JSON/HTTPS")
+Rel(pos_ui, api, "Вызывает", "JSON/HTTPS")
+
+Rel(api, db, "Читает и пишет", "JDBC")
+Rel(api, payment_gw, "Авторизует платежи", "HTTPS")
+Rel(api, queue, "Публикует событие OrderCreated", "AMQP")
+
+Rel(queue, worker, "Доставляет события", "AMQP")
+Rel(worker, db, "Читает данные заказа", "JDBC")
+Rel(worker, email_sys, "Отправляет PDF-билет", "SMTP")
+
+SHOW_LEGEND()
+@enduml

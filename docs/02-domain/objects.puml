@@ -1,0 +1,35 @@
+@startuml
+!include ../_style.puml
+title Состояние системы на 28.09.2026, 15:30
+object "<u>smirnov: Кассир</u>" as emp {
+    табельныйНомер = "EMP-774"
+    фио = "Смирнов А.А."
+    номерОкна = 2
+}
+object "<u>client: Покупатель</u>" as buyer {
+    фио = "Иванов И.И."
+    контактныеДанные = "ivanov@email.com"
+}
+object "<u>ord102: Заказ</u>" as ord {
+    номер = "ORD-2026-102"
+    дата = "2026-09-28T15:25"
+}
+object "<u>match: Событие</u>" as ev {
+    название = "Спартак - Динамо"
+    датаВремя = "2026-10-01T19:00"
+}
+object "<u>tkt45: Билет</u>" as tkt {
+    штрихкод = "9988776655"
+    цена = 1500 RUB
+}
+object "<u>seat12: Место</u>" as seat {
+    ряд = 5
+    номер = "12"
+    статус = ВЫКУПЛЕНО
+}
+buyer -- ord
+emp -- ord
+ev o-- tkt
+ord *-- tkt
+tkt -- seat
+@enduml

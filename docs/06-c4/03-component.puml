@@ -1,0 +1,39 @@
+@startuml
+!include <C4/C4_Component>
+title Уровень 3 Components: контейнер «Backend API»
+
+Container(web_ui, "Веб-витрина", "React")
+ContainerDb(db, "Основная БД", "PostgreSQL")
+ContainerQueue(queue, "Очередь событий", "RabbitMQ")
+System_Ext(payment_gw, "Платёжный шлюз")
+
+Container_Boundary(api, "Backend API") {
+    Component(order_ctrl, "OrderController", "Spring MVC", "REST-эндпоинты оформления заказов")
+    Component(seat_ctrl, "SeatController", "Spring MVC", "REST-эндпоинты проверки статуса мест")
+    
+    Component(order_svc, "OrderService", "Java", "Оркестрация создания заказа и билетов")
+    Component(seat_svc, "SeatService", "Java", "Управление блокировками мест")
+    Component(payment_svc, "PaymentService", "Java", "Интеграция с эквайрингом")
+    
+    Component(repo, "JPA Repositories", "Spring Data", "Доступ к таблицам Заказ, Место, Билет")
+    Component(event_pub, "EventPublisher", "Java", "Отправка сообщений в брокер")
+}
+
+Rel(web_ui, order_ctrl, "POST /orders", "JSON/HTTPS")
+Rel(web_ui, seat_ctrl, "GET /seats", "JSON/HTTPS")
+
+Rel(order_ctrl, order_svc, "вызывает")
+Rel(seat_ctrl, seat_svc, "вызывает")
+
+Rel(order_svc, seat_svc, "проверяет и блокирует")
+Rel(order_svc, payment_svc, "инициирует оплату")
+Rel(order_svc, repo, "сохраняет сущности")
+Rel(order_svc, event_pub, "публикует успешный заказ")
+
+Rel(seat_svc, repo, "использует")
+Rel(payment_svc, payment_gw, "запрашивает", "HTTPS")
+Rel(repo, db, "читает и пишет", "JDBC")
+Rel(event_pub, queue, "отправляет", "AMQP")
+
+SHOW_LEGEND()
+@enduml

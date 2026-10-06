@@ -1,0 +1,22 @@
+@startuml
+!include <C4/C4_Context>
+title Уровень 1 System Context: Система продажи билетов
+
+Person(viewer, "Зритель", "Ищет события, покупает билеты и абонементы")
+Person(cashier, "Кассир", "Продаёт билеты в кассах стадиона")
+Person(admin, "Администратор", "Управляет возвратами")
+
+System(stadium_sys, "Система продажи билетов", "Управление местами, оформление заказов и продажа билетов")
+
+System_Ext(payment_gw, "Платёжный шлюз", "Обработка платежей по банковским картам")
+System_Ext(email_sys, "Email/SMS-шлюз", "Рассылка электронных билетов и чеков")
+
+Rel(viewer, stadium_sys, "Выбирает места и покупает билеты", "HTTPS")
+Rel(cashier, stadium_sys, "Оформляет продажи в кассе", "HTTPS")
+Rel(admin, stadium_sys, "Проводит возвраты", "HTTPS")
+
+Rel(stadium_sys, payment_gw, "Проводит оплату", "HTTPS")
+Rel(stadium_sys, email_sys, "Отправляет билеты", "SMTP/HTTPS")
+
+SHOW_LEGEND()
+@enduml
