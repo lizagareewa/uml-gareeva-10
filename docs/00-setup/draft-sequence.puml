@@ -4,7 +4,7 @@
 actor "Покупатель" as buyer
 participant "Витрина" as ui
 participant "Сервис продаж" as app
-database "БД" as db
+databse "БД" as db
 
 buyer -> ui: выбрать место
 ui -> app: запрос на бронирование
@@ -13,3 +13,4 @@ db --> app: ok
 app --> ui: место заблокировано
 ui --> buyer: переход к оплате
 
+@enduml
