@@ -8,7 +8,7 @@ actor "Администратор" as admin
 
 rectangle "Продажа билетов на стадион" {
   usecase "Выбрать место"                    as UC1
-  usece "Купить билет"                     as UC2
+  usecase "Купить билет"                     as UC2
   usecase "Оформить абонемент"               as UC3
   usecase "Продать билет в кассе"            as UC4
   usecase "Произвести возврат билета"        as UC5
