@@ -1,0 +1,24 @@
+@startuml
+!include <C4/C4_Dynamic>
+title Динамический вид С4: сценарий «Покупка билета зрителем»
+
+Person(viewer, "Зритель")
+Container(web_ui, "Веб-витрина", "React")
+Container(api, "Backend API", "Spring Boot")
+ContainerDb(db, "Основная БД", "PostgreSQL")
+System_Ext(payment_gw, "Платёжный шлюз")
+ContainerQueue(queue, "Очередь событий", "RabbitMQ")
+Container(worker, "Воркер рассылок", "Python")
+
+RelIndex(1, viewer, web_ui, "Выбирает место и вводит карту")
+RelIndex(2, web_ui, api, "POST /orders", "JSON/HTTPS")
+RelIndex(3, api, db, "Устанавливает блокировку места")
+RelIndex(4, api, payment_gw, "Авторизует сумму на карте", "HTTPS")
+RelIndex(5, api, db, "Создаёт записи Order и Ticket")
+RelIndex(6, api, queue, "Публикует OrderCreated")
+RelIndex(7, api, web_ui, "Возвращает номер заказа")
+RelIndex(8, queue, worker, "Доставляет событие", "AMQP")
+RelIndex(9, worker, viewer, "Отправляет PDF-билет на email", "SMTP")
+
+SHOW_LEGEND()
+@enduml

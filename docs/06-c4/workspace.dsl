@@ -47,7 +47,6 @@ workspace "Система продажи билетов" "Учебная мод�
         
         seat_svc -> repo "Использует"
         
-        // Связи с базами, очередями и внешними системами
         payment_svc -> payment_gw "Запрашивает авторизацию" "HTTPS"
         repo -> db "Читает и пишет" "JDBC"
         event_pub -> queue "Отправляет" "AMQP"
@@ -70,6 +69,5 @@ workspace "Система продажи билетов" "Учебная мод�
             include *
             autolayout lr
         }
-        theme default
     }
 }

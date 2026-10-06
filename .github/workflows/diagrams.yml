@@ -1,0 +1,29 @@
+name: Render diagrams
+on:
+  push:
+    paths: ['docs/**/*.puml', '_style.puml']
+  pull_request:
+    paths: ['docs/**/*.puml', '_style.puml']
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+      - name: Download PlantUML
+        run: |
+          curl -sSL -o plantuml.jar \
+          https://github.com/plantuml/plantuml/releases/download/v1.2025.2/plantuml-1.2025.2.jar
+      - name: Render PNG and SVG
+        run: |
+          java -jar plantuml.jar -failfast2 -tpng -o "$PWD/out/png" "docs/**/*.puml"
+          java -jar plantuml.jar -failfast2 -tsvg -o "$PWD/out/svg" "docs/**/*.puml"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: diagrams
+          path: out/
